@@ -26,3 +26,7 @@
 .todoItem {
   display:flex;
 }
+
+.todoItem p {
+  padding-left: 20px;
+}
