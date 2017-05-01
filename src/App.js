@@ -19,7 +19,7 @@ class App extends Component {
   }
 
   async getTodos() {
-	const response = await request.get('http://localhost:3000/user/9091e65a-a50f-4e36-9989-f84565d1063d');
+	const response = await request.get('http://localhost:3000/user/9091e65a-a50f-4e36-9989-f84565d1063d/todos');
 	return response.body.todos;
   }
 
@@ -55,9 +55,9 @@ class App extends Component {
 		  <button>submit</button>
 		  <ul>
 		  	{this.state.todoArray.map((item) => (
-		  		<div>
+		  		<div className="todoItem" key={item.id}>
 		  			<input id="toggle" type="checkbox"/>
-		  			<TodoItem todo={item} />
+		  			<TodoItem todo={item.title} />
 		  		</div>
 		  		))}
 		  </ul>
