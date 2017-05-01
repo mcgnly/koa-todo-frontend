@@ -1,15 +1,16 @@
 import React from 'react';
 
-export default ({todo, status}) => {
-	let style={
-		display:'flex',
-		color: document.getElementById('toggle') ? 'black' : 'grey'
-	}
+export default ({todo, completed}) => {
+	let color = completed ? 'grey' : 'black';
+	let strike = completed ? 'line-through' : 'none';
+	let style = {
+		'color':color,
+		'textDecoration':strike
+		}
 
 		return (
 			<div>
-				
-				<li>{`${todo}`}</li>
+				<p style={style}>{`${todo}`}</p>
 			</div>
 			);
 	}

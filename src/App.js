@@ -27,42 +27,35 @@ class App extends Component {
 	await request.post('/foo');
   }
 
-  async toggleTodo() {
-	await request.post('/foo');
+  async toggleTodo(id) {
+  	let url = 'http://localhost:3000/todos/'+id+'/toggle'
+	const toggled = await request.patch(url);
+	if (toggled.statusCode === 200) {
+		let specificIndex = this.state.todoArray.findIndex((item)=>{return item.id === id});
+
+		let specificItem = {...this.state.todoArray[specificIndex]};
+		specificItem.completed = !specificItem.completed;
+
+		let newTodoArray = [...this.state.todoArray];
+		newTodoArray[specificIndex] = specificItem;
+		this.setState({...this.state.todoArray, todoArray:newTodoArray});
+	}
   }
 
- //  async makeList() {
-	// const res = await this.getTodos()
-	// return res.map((item) => {
-	// 	console.log("item", item);
-	// 	return <li>{`${item}`}</li>
-	// });
- //  }
-
 	render() {
-		let key=0;
-	return (
-	  <div className="App">
-		<div className="App-header">
-		  <img src={logo} className="App-logo" alt="logo" />
-		  <h2>Welcome to React</h2>
-		</div>
-		<p className="App-intro">
-		  To get started, edit <code>src/App.js</code> and save to reload.
-		</p>
-		<label>type a todo: </label>
-		  <input type="text"/>
-		  <button>submit</button>
-		  <ul>
-		  	{this.state.todoArray.map((item) => (
-		  		<div className="todoItem" key={item.id}>
-		  			<input id="toggle" type="checkbox"/>
-		  			<TodoItem todo={item.title} />
-		  		</div>
-		  		))}
-		  </ul>
-	  </div>
-	);
+		return (
+			<div className="App">
+				<label>type a todo: </label>
+				<input type="text"/>
+				<button>submit</button>
+			  	{this.state.todoArray.map((item) => (
+			  		<div className="todoItem" key={item.id}>
+			  			<input id="toggle" type="checkbox" checked={item.completed} onChange={()=>{this.toggleTodo(item.id)}}/>
+			  			<TodoItem todo={item.title} completed={item.completed} />
+			  		</div>
+			  		))}
+			</div>
+		);
   }
 }
 
